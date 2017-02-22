@@ -1,0 +1,92 @@
+#include <iostream>
+#include <string>
+#include "chainingTable.h"
+#include <fstream>
+#include <sstream>
+
+using namespace std;
+
+string scrub(string x)
+{
+	for (int i = 0; i < x.length(); i++)
+	{
+		if (x[i] >= 97 && x[i] <= 122)
+		{
+			x[i] = x[i];
+		}
+		else if (x[i] >= 65 && x[i] <= 90)
+		{
+			x[i] = x[i] + 32;
+		}
+		else
+		{
+			x[i] = 32;
+		}
+	}
+	return x;
+}
+int main()
+{
+	string scrub(string x);
+	chainingTable test;
+	linkedList item;
+	fstream file;
+	ofstream file2;
+	string word;
+
+
+
+
+	
+	file.open("dictionary.txt");
+	if (file.is_open())
+	{
+		while (!file.eof())
+		{
+			getline(file, word);
+			test.insertCH(word);
+		}
+	}
+	file.close();
+	cout << "Is aa in the dictionary ?" <<test.contains("aa") << endl;
+	cout << "Is dog in the dictionary ?" << test.contains("dog") << endl;
+	cout << "Is aaaa in the dictionary ?" << test.contains("aaaa") << endl;
+	
+	cout << "Average search time for dictionary " << test.averageSearchCost() << endl;
+
+	cout << "Scrubbing function tests" << endl;
+	cout << "Hello should be hello " << endl;
+	cout << scrub("Hello") << endl;
+	cout << "!!!Hello should be hello" << endl;
+	cout << scrub("!!!Hello") << endl;
+	cout << "!-?HeLLo_\"\' should be hello" << endl;
+	cout << scrub("!-?HeLLo_\"\'") << endl;
+
+	file.open("raven.txt");
+	file2.open("raven2.txt");
+	while (file >> word)
+	{
+		file << scrub(word);
+		//cout << scrub(word);
+	}
+	file.close();
+	cout << endl;
+
+	file.open("raven2.txt");
+	if (file.is_open())
+	{
+		cout << "Hey the file is open" << endl;
+	}
+
+	while (file >> word)
+	{
+		if (test.contains(word) == 0)
+		{
+			file2 << word;
+		}
+	}
+	file.close();
+
+	system("pause");
+	return 0;
+}
